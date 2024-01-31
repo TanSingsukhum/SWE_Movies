@@ -1,21 +1,27 @@
 /* App.css */
 
+body {
+  margin: 0; /* Remove default body margin */
+}
+
 .App {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-around;
-  padding: 20px; /* Add padding to give some space at the top */
+  padding: 20px;
+  background-color: black; /* Set background color to black */
+  color: white; /* Set text color to white for better visibility on black background */
 }
 
 h1 {
   text-align: center;
   font-family: Georgia, 'Times New Roman', Times, serif;
-  width: 100%; /* Make the title span the full width */
+  width: 100%;
 }
 
 .search-container {
-  width: 100%; /* Make the search container span the full width */
+  width: 100%;
   margin-bottom: 20px;
 }
 
@@ -28,7 +34,7 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 200px; /* Limit the width of each movie container */
+  max-width: 200px;
   margin: 10px;
 }
 
@@ -38,5 +44,5 @@ h1 {
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: center;
-  width: 100%; /* Make the title span the full width */
+  width: 100%;
 }
