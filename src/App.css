@@ -1,38 +1,42 @@
+/* App.css */
+
 .App {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  padding: 20px; /* Add padding to give some space at the top */
+}
+
+h1 {
   text-align: center;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  width: 100%; /* Make the title span the full width */
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.search-container {
+  width: 100%; /* Make the search container span the full width */
+  margin-bottom: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+#search {
+  width: 100%;
+  padding: 8px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.movieContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  max-width: 200px; /* Limit the width of each movie container */
+  margin: 10px;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.movieContainer > h2 {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  width: 100%; /* Make the title span the full width */
 }
