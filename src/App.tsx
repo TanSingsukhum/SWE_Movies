@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios, { AxiosError, AxiosRequestConfig } from 'axios';
+import axios, { AxiosError } from 'axios';
 import './App.css';
 
 interface Movies {
@@ -7,11 +7,17 @@ interface Movies {
   title: string;
   poster_path: string;
   release_date: string;
-  genre_ids: number[]; // Add genre_ids to the Movies interface
+  genre_ids: number[];
+}
+
+interface Genre {
+  id: number;
+  name: string;
 }
 
 function App() {
   const [movies, setMovies] = useState<Movies[]>([]);
+  const [genres, setGenres] = useState<Genre[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [releaseYearFilter, setReleaseYearFilter] = useState<string | null>(null);
   const [categoryFilter, setCategoryFilter] = useState<number | null>(null);
@@ -27,8 +33,7 @@ function App() {
     // Fetch genres to populate category filter
     axios.get(`${genresEndpoint}?api_key=${apiKey}`).then((response) => {
       const genres = response.data.genres;
-      // Now you can use genres to populate your category filter UI if needed
-      // For simplicity, we'll assume you have a list of genre IDs to filter movies
+      setGenres(genres);
     });
 
     // Fetch movies
@@ -108,8 +113,11 @@ function App() {
           onChange={handleCategoryFilter}
         >
           <option value="All">All</option>
-          {/* Populate the dropdown with genre options */}
-          {/* Example: <option value={genre.id}>{genre.name}</option> */}
+          {genres.map((genre) => (
+            <option key={genre.id} value={genre.id}>
+              {genre.name}
+            </option>
+          ))}
         </select>
       </div>
       {filteredMovies.map((item) => (
