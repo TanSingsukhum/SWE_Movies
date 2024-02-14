@@ -15,7 +15,6 @@ interface Genre {
   name: string;
 }
 
-
 function App() {
   const [movies, setMovies] = useState<Movies[]>([]);
   const [genres, setGenres] = useState<Genre[]>([]);
@@ -25,6 +24,7 @@ function App() {
   const apiKey = "617dd89da10f8a19d0808e67a8203217";
   const allMoviesEndpoint = "https://api.themoviedb.org/3/movie/now_playing";
   const genresEndpoint = "https://api.themoviedb.org/3/genre/movie/list";
+  const overviewEndpoint = "https://cs361-movie-microservice-cdc35fc37d51.herokuapp.com/movie";
 
   useEffect(() => {
     fetchData();
@@ -43,15 +43,12 @@ function App() {
       setMovies(result);
     }).catch((error: AxiosError) => {
       if (error.response) {
-        // The request was made and the server responded with a status code
         console.error("Error response data:", error.response.data);
         console.error("Error response status:", error.response.status);
         console.error("Error response headers:", error.response.headers);
       } else if (error.request) {
-        // The request was made but no response was received
         console.error("Error request data:", error.request);
       } else {
-        // Something happened in setting up the request that triggered an Error
         console.error("Error message:", error.message);
       }
     });
@@ -68,17 +65,6 @@ function App() {
   const handleCategoryFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setCategoryFilter(e.target.value === 'All' ? null : parseInt(e.target.value));
   };
-
-  const filteredMovies = movies
-    .filter((item) => item.title.toLowerCase().includes(searchTerm.toLowerCase()))
-    .filter((item) => releaseYearFilter ? item.release_date.includes(releaseYearFilter) : true)
-    .filter((item) => categoryFilter ? item.genre_ids.includes(categoryFilter) : true);
-    
-
-  // Get unique release years for the release year filter dropdown
-  const releaseYears = Array.from(
-    new Set(movies.map((item) => item.release_date.split('-')[0]))
-  );
 
   return (
     <div className="App">
@@ -100,15 +86,8 @@ function App() {
           onChange={handleReleaseYearFilter}
         >
           <option value="All">All</option>
-          {releaseYears.map((year) => (
-            <option key={year} value={year}>
-              {year}
-            </option>
-          ))}
-          
         </select>
 
-        {/* Assuming you have a list of genres (genre IDs) to populate the category filter */}
         <label htmlFor="category">Category: </label>
         <select
           id="category"
@@ -116,27 +95,43 @@ function App() {
           onChange={handleCategoryFilter}
         >
           <option value="All">All</option>
-          {genres.map((genre) => (
-            <option key={genre.id} value={genre.id}>
-              {genre.name}
-            </option>
-          ))}
         </select>
       </div>
-      {filteredMovies.map((item) => (
-  <div className="movieContainer" key={item.id}>
-    <h2>{item.title}</h2>
-    <p>ID: {item.id}</p>
-    {item.poster_path && (
-      <img src={`https://image.tmdb.org/t/p/w200${item.poster_path}`} alt={`${item.title} Poster`} />
-    )}
-    <p>Release Date: {item.release_date}</p>
-  </div>
-))}
+      {movies.map((item) => (
+        <div className="movieContainer" key={item.id}>
+          <h2>{item.title}</h2>
+          <p>ID: {item.id}</p>
+          {item.poster_path && (
+            <img src={`https://image.tmdb.org/t/p/w200${item.poster_path}`} alt={`${item.title} Poster`} />
+          )}
+          <p>Release Date: {item.release_date}</p>
+          {/* Fetch movie overview */}
+          <Overview movieId={item.id} overviewEndpoint={overviewEndpoint} />
+        </div>
+      ))}
     </div>
   );
 }
 
+interface OverviewProps {
+  movieId: number;
+  overviewEndpoint: string;
+}
 
+function Overview({ movieId, overviewEndpoint }: OverviewProps) {
+  const [overview, setOverview] = useState<string | null>(null);
+
+  useEffect(() => {
+    axios.get(`${overviewEndpoint}/${movieId}`).then((response) => {
+      setOverview(response.data.overview);
+    }).catch((error) => {
+      console.error("Error fetching overview:", error);
+    });
+  }, [movieId, overviewEndpoint]);
+
+  return (
+    <p>{overview || "Loading overview..."}</p>
+  );
+}
 
 export default App;
