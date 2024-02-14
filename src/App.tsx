@@ -15,6 +15,7 @@ interface Genre {
   name: string;
 }
 
+
 function App() {
   const [movies, setMovies] = useState<Movies[]>([]);
   const [genres, setGenres] = useState<Genre[]>([]);
@@ -72,6 +73,7 @@ function App() {
     .filter((item) => item.title.toLowerCase().includes(searchTerm.toLowerCase()))
     .filter((item) => releaseYearFilter ? item.release_date.includes(releaseYearFilter) : true)
     .filter((item) => categoryFilter ? item.genre_ids.includes(categoryFilter) : true);
+    
 
   // Get unique release years for the release year filter dropdown
   const releaseYears = Array.from(
@@ -103,6 +105,7 @@ function App() {
               {year}
             </option>
           ))}
+          
         </select>
 
         {/* Assuming you have a list of genres (genre IDs) to populate the category filter */}
@@ -121,16 +124,19 @@ function App() {
         </select>
       </div>
       {filteredMovies.map((item) => (
-        <div className="movieContainer" key={item.id}>
-          <h2>{item.title}</h2>
-          {item.poster_path && (
-            <img src={`https://image.tmdb.org/t/p/w200${item.poster_path}`} alt={`${item.title} Poster`} />
-          )}
-          <p>{item.release_date}</p>
-        </div>
-      ))}
+  <div className="movieContainer" key={item.id}>
+    <h2>{item.title}</h2>
+    <p>ID: {item.id}</p>
+    {item.poster_path && (
+      <img src={`https://image.tmdb.org/t/p/w200${item.poster_path}`} alt={`${item.title} Poster`} />
+    )}
+    <p>Release Date: {item.release_date}</p>
+  </div>
+))}
     </div>
   );
 }
+
+
 
 export default App;
