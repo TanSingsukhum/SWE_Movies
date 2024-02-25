@@ -21,13 +21,46 @@ h1 {
 }
 
 .search-container {
-  width: 100%;
+  width: 1150px;
   margin-bottom: 20px;
 }
 
 #search {
   width: 100%;
   padding: 8px;
+  box-sizing: border-box;
+  font-size: 16px;
+  border: 2px solid #fff; /* White border for better visibility */
+  border-radius: 5px;
+  background-color: #ffffff; /* Dark background color for search input */
+  color: rgb(0, 0, 0); /* Text color for search input */
+}
+
+.filter-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.filter-container label {
+  color: white; /* Text color for filter labels */
+  margin-right: 10px;
+}
+
+.filter-container select {
+  padding: 8px;
+  font-size: 16px;
+  border: 2px solid #fff; /* White border for better visibility */
+  border-radius: 5px;
+  background-color: #ffffff; /* Dark background color for filter dropdown */
+  color: rgb(0, 0, 0); /* Text color for filter dropdown */
+}
+
+.movieGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
 }
 
 .movieContainer {
@@ -35,7 +68,8 @@ h1 {
   flex-direction: column;
   align-items: center;
   max-width: 200px;
-  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
 }
 
 .movieContainer > h2 {
@@ -45,4 +79,102 @@ h1 {
   text-overflow: ellipsis;
   text-align: center;
   width: 100%;
+  margin-bottom: 10px;
+  color: #fff; /* Set text color to white */
 }
+
+.movieContainer > img {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.selectedMovieContainer {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #333; /* Dark background color for selected movie container */
+  border-radius: 5px;
+}
+
+.selectedMovieContainer > h2 {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  text-align: center;
+  margin-bottom: 10px;
+  color: #fff; /* Set text color to white */
+}
+
+.selectedMovieContainer > img {
+  width: 100%;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.selectedMovieContainer > p {
+  color: #fff; /* Set text color to white */
+}
+
+.banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, #1a1a1a, #000000); /* Gradient background */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+  overflow-y: auto; /* Enable scrolling for small screens */
+}
+
+.banner img {
+  max-width: 80%;
+  max-height: 60vh; /* Limit the maximum height of the image */
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8); /* Add a subtle box shadow */
+}
+
+.banner h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.banner p {
+  max-width: 80%;
+  text-align: center;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+.instructionBanner {
+  background-color: #000000; /* Example color: Adjust as needed */
+  padding: 20px;
+  color: white;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.instructionBanner h1, .instructionBanner h2, .instructionBanner h3 {
+  color: #ffffff; /* Example color: Adjust as needed */
+}
+
+.instructionBanner p {
+  line-height: 1.5;
+}
+
+.instructionBanner button {
+  background-color: #0e0e0e; /* Example color: Adjust as needed */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.instructionBanner button:hover {
+  background-color: #00ff51; /* Example color: Adjust as needed */
+}
+
+/* Add any additional styling as needed */
