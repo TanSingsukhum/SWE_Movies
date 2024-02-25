@@ -10,6 +10,8 @@ interface Movies {
   genre_ids: number[];
   overview: string;
   rating: number; // New property for movie rating
+  runtime: number; // Add this property for movie runtime
+
 }
 
 interface Genre {
@@ -47,17 +49,19 @@ function App() {
       const moviesData = moviesResponse.data.results;
   
       // Fetch ratings for each movie
-      const moviesWithRatings = await Promise.all(
+      const moviesWithRatingsAndRuntime = await Promise.all(
         moviesData.map(async (movie: Movies) => {
           const detailsResponse = await axios.get(`https://api.themoviedb.org/3/movie/${movie.id}?api_key=${apiKey}`);
           const rating = detailsResponse.data.vote_average;
-  
-          // Combine movie data with rating
-          return { ...movie, rating };
+          const runtime = detailsResponse.data.runtime;
+      
+          // Combine movie data with rating and runtime
+          return { ...movie, rating, runtime };
         })
       );
+      
+      setMovies(moviesWithRatingsAndRuntime);
   
-      setMovies(moviesWithRatings);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response) {
@@ -184,7 +188,8 @@ function App() {
     )}
     <p>Release Date: {selectedMovie.release_date}</p>
     <p>Overview: {selectedMovie.overview}</p>
-    <p>Rating: {selectedMovie.rating.toFixed(1)}/10</p> {/* Display the rating out of 10 with one decimal place */}
+    <p>Rating: {selectedMovie.rating.toFixed(1)}/10</p>
+    <p>Runtime: {selectedMovie.runtime} minutes</p> {/* Display the runtime */}
   </div>
 )}
 
