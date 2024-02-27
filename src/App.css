@@ -11,7 +11,7 @@ body {
   justify-content: space-around;
   padding: 20px;
   background-color: black; /* Set background color to black */
-  color: white; /* Set text color to white for better visibility on black background */
+  color: rgb(255, 255, 255); /* Set text color to white for better visibility on black background */
 }
 
 h1 {
@@ -33,7 +33,7 @@ h1 {
   border: 2px solid #fff; /* White border for better visibility */
   border-radius: 5px;
   background-color: #ffffff; /* Dark background color for search input */
-  color: rgb(0, 0, 0); /* Text color for search input */
+  color: rgb(255, 255, 255); /* Text color for search input */
 }
 
 .filter-container {
@@ -177,4 +177,39 @@ h1 {
   background-color: #00ff51; /* Example color: Adjust as needed */
 }
 
-/* Add any additional styling as needed */
+.cast-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.actor {
+  text-align: center;
+  margin: 10px;
+  max-width: 150px;
+}
+
+.actor img {
+  width: 100%;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.actor p {
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.actor img {
+  max-width: 100%;
+  border-radius: 8px;
+  /* Add any other styling for the actor image */
+}
+
+.no-picture {
+  text-align: center;
+  color: #fff; /* Set the text color to white or a color that suits your design */
+}

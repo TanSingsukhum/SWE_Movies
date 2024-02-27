@@ -11,12 +11,15 @@ interface Movies {
   overview: string;
   rating: number; // New property for movie rating
   runtime: number; // Add this property for movie runtime
+  cast: { name: string; profile_path: string }[]; // Add this property for cast
 
 }
 
 interface Genre {
   id: number;
   name: string;
+  cast: { name: string; profile_path: string | null }[];
+
 }
 
 function App() {
@@ -49,18 +52,26 @@ function App() {
       const moviesData = moviesResponse.data.results;
   
       // Fetch ratings for each movie
-      const moviesWithRatingsAndRuntime = await Promise.all(
-        moviesData.map(async (movie: Movies) => {
-          const detailsResponse = await axios.get(`https://api.themoviedb.org/3/movie/${movie.id}?api_key=${apiKey}`);
-          const rating = detailsResponse.data.vote_average;
-          const runtime = detailsResponse.data.runtime;
+    // Fetch additional details for each movie (including cast)
+    const moviesWithDetails = await Promise.all(
+      moviesData.map(async (movie: Movies) => {
+        const detailsResponse = await axios.get(
+          `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${apiKey}&append_to_response=credits`
+        );
+
+        const rating = detailsResponse.data.vote_average;
+        const runtime = detailsResponse.data.runtime;
+        const cast = detailsResponse.data.credits.cast.map((actor: any) => ({
+          name: actor.name,
+          profile_path: actor.profile_path,
+        }));
+
+        // Combine movie data with rating, runtime, and cast
+        return { ...movie, rating, runtime, cast };
+      })
+    );
       
-          // Combine movie data with rating and runtime
-          return { ...movie, rating, runtime };
-        })
-      );
-      
-      setMovies(moviesWithRatingsAndRuntime);
+    setMovies(moviesWithDetails);
   
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -188,10 +199,24 @@ function App() {
     )}
     <p>Release Date: {selectedMovie.release_date}</p>
     <p>Overview: {selectedMovie.overview}</p>
-    <p>Rating: {selectedMovie.rating.toFixed(1)}/10</p>
-    <p>Runtime: {selectedMovie.runtime} minutes</p> {/* Display the runtime */}
+    <p>Rating: {selectedMovie.rating.toFixed(1)}/10 Runtime: {selectedMovie.runtime} minutes</p> 
+    <div className="cast-container">
+    {selectedMovie.cast.map((actor, index) => (
+  <div key={index} className="actor">
+    {actor.profile_path !== null ? (
+      <>
+        <p>{actor.name}</p>
+      </>
+    ) : (
+      <p key={index}>No picture available for {actor.name}</p>
+    )}
+  </div>
+))}
+
+    </div>
   </div>
 )}
+
 
     </div>
   );
